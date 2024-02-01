@@ -25,7 +25,7 @@
     brave btop bibata-cursors
     discord dunst dmenu
     dracula-icon-theme dracula-theme
-    fd
+    fd flameshot
     gparted gcc gruvbox-gtk-theme gruvbox-dark-icons-gtk git gimp gnumake gnome.adwaita-icon-theme
     htop
     ispell

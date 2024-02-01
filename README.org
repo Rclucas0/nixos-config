@@ -18,6 +18,7 @@
   - [[#homenix-configuration][Home.nix Configuration]]
 - [[#user-dotfiles][User Dotfiles]]
   - [[#starship-config][Starship Config]]
+  - [[#sxhkd-config][Sxhkd Config]]
 - [[#and-i-can-link-to-other-org-files-in-this-repo][And I can Link To Other Org Files In This Repo]]
 
 * What Is NixOS
@@ -48,6 +49,11 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 - This is my current set up of NixOS using a flake to setup the main system
 - I am also using emacs org-mode to set up most of this config and what you are reading now
+
+
+#+CAPTION: My Dwm NixOS Flake Setup
+#+NAME: GruvBox Dwm
+[[./1mon-gruvbox-dwm.png]]
 
 ** Flake.nix Configuration
 
@@ -240,7 +246,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     brave btop bibata-cursors
     discord dunst dmenu
     dracula-icon-theme dracula-theme
-    fd
+    fd flameshot
     gparted gcc gruvbox-gtk-theme gruvbox-dark-icons-gtk git gimp gnumake gnome.adwaita-icon-theme
     htop
     ispell
@@ -508,5 +514,26 @@ success_symbol = "[➜](bold blue)"
 disabled = false
 #+end_src
 
+** Sxhkd Config
+
+#+begin_src bash :tangle ~/.config/sxhkd/sxhkdrc
+super + BackSpace
+	pkill -USR1 -x sxhkd
+
+super + {_}{w,a,Return,e}
+	{brave,st,kitty,emacsclient -c -a 'emacs'}
+
+super + shift + {_}{d}
+	{rofi -show drun}
+
+alt + {_}{d,s,r,h,m,g}
+	{discord,steam,dmenu_run,flatpak run com.heroicgameslauncher.hgl,prismlauncher,gimp}
+
+alt + shift + {_}{p,Return}
+	{pavucontrol,thunar}
+
+ctrl + {_}{p}
+	{flameshot gui}
+#+end_src
 
 * And I can Link To Other Org Files In [[./user/README.org][This Repo]]
