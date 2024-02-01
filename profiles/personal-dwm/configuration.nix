@@ -78,7 +78,7 @@
     description = "Riley Lucas";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "dialout" ];
     packages = with pkgs; [
-      firefox
+
     ];
   };
 

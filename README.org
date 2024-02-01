@@ -1,18 +1,41 @@
 #+title: NixOS Flake Configuration
 #+author: Riley Lucas
-#+date: <2024-01-30 Tue>
+#+description: What NixOS is and my configuration
 
-* TABLE OF CONTENTS :toc:
-- [[#flakenix-configuration][Flake.nix Configuration]]
-- [[#configurationnix-configuration][Configuration.nix Configuration]]
-- [[#bluetoothnix-file][Bluetooth.nix File]]
-- [[#dwmnix-file][Dwm.nix File]]
-- [[#virt-managernix][Virt-manager.nix]]
-- [[#syspackagesnix-file][SysPackages.nix File]]
-- [[#dwm-configh-configuration][Dwm config.h Configuration]]
-- [[#user-readme-file][User README File]]
 
-* Flake.nix Configuration
+[[./user/README.org][this is a test]]
+
+* TABLE OF CONTENTS :toc@3:
+- [[#what-is-nixos][What Is NixOS]]
+- [[#what-are-nix-flakes][What Are Nix Flakes]]
+- [[#my-current-nixos-configuration-using-nix-flakes][My Current NixOS Configuration Using Nix Flakes]]
+  - [[#flakenix-configuration][Flake.nix Configuration]]
+    - [[#configurationnix-configuration][Configuration.nix Configuration]]
+    - [[#dwmnix-file][Dwm.nix File]]
+    - [[#dwm-configh-configuration][Dwm config.h Configuration]]
+- [[#user-dotfiles][User Dotfiles]]
+  - [[#starship-config][Starship Config]]
+  - [[#__-config][__ Config]]
+
+* What Is NixOS
+
+- NixOS is a declarative system unlike most systems that you normally see to day which are imperative
+- Only difference is that the system configurations other then user customization is all done in one file and is rebuilt on each install
+- The configuration is written in a functional programming language called Nix
+- The Nix programming uses nix to create and nix package which is then used to
+
+* What Are Nix Flakes
+
+From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
+
+- A Nix flake is a directory with a flake.nix and flake.lock at the root that outputs Nix expressions that others can use to do things like build packages, run programs, use development environments, or stand up NixOS systems. If necessary, flakes can use the outputs of other flakes as inputs.
+
+* My Current NixOS Configuration Using Nix Flakes
+
+- This is my current set up of NixOS using a flake to setup the main system
+- I am also using emacs org-mode to set up most of this config and what you are reading now
+
+** Flake.nix Configuration
 
 #+begin_src nix :tangle ./flake.nix
 {
@@ -45,7 +68,7 @@
 }
 #+end_src
 
-* Configuration.nix Configuration
+*** Configuration.nix Configuration
 
 #+begin_src nix :tangle ./profiles/personal-dwm/configuration.nix
 { config, pkgs, ... }:
@@ -128,7 +151,7 @@
     description = "Riley Lucas";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "dialout" ];
     packages = with pkgs; [
-      firefox
+
     ];
   };
 
@@ -136,7 +159,7 @@
 }
 #+end_src
 
-* Bluetooth.nix File
+**** Bluetooth.nix File
 
 #+begin_src nix :tangle ./system/bluetooth.nix
 {config, pkgs, ...}:
@@ -148,25 +171,8 @@
 }
 #+end_src
 
-* Dwm.nix File
+**** Virt-manager.nix
 
-#+begin_src nix :tangle ./user/wm/dwm.nix
-{config, pkgs, ...}:
-
-{
-  # Enable Dwm
-  services.xserver.windowManager.dwm.enable = true;
-  services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
-    src = ./dwm;
-  };
-
-  environment.systemPackages = with pkgs; [
-    (slstatus.overrideAttrs (_:{ src = ./dwm/slstatus;}))
-  ];
-}
-#+end_src
-
-* Virt-manager.nix
 #+begin_src nix :tangle ./system/virt-manager.nix
 {config, pkgs, ...}:
 {
@@ -176,7 +182,7 @@
 }
 #+end_src
 
-* SysPackages.nix File
+**** SysPackages.nix File
 
 #+begin_src nix :tangle ./system/syspkgs.nix
 {config, pkgs, ...}:
@@ -202,13 +208,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    alacritty
+    alacritty aspell
     brave btop bibata-cursors
     discord dunst dmenu
     dracula-icon-theme dracula-theme
     fd
     gparted gcc gruvbox-gtk-theme gruvbox-dark-icons-gtk git gimp gnumake gnome.adwaita-icon-theme
     htop
+    ispell
     kitty
     libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
     mpv
@@ -226,7 +233,26 @@
 }
 #+end_src
 
-* Dwm config.h Configuration
+*** Dwm.nix File
+
+#+begin_src nix :tangle ./user/wm/dwm.nix
+{config, pkgs, ...}:
+
+{
+  # Enable Dwm
+  services.xserver.windowManager.dwm.enable = true;
+  services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
+    src = ./dwm;
+  };
+
+  environment.systemPackages = with pkgs; [
+    (slstatus.overrideAttrs (_:{ src = ./dwm/slstatus;}))
+  ];
+}
+#+end_src
+
+*** Dwm config.h Configuration
+
 #+begin_src c :tangle ./user/wm/dwm/config.def.h
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -234,7 +260,7 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
+static const char *fonts[]          = { "monospace:size=15" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -250,7 +276,7 @@ static const char col_gruv_redL[]           = "#fb4934";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_redL,  col_redL  },
+	[SchemeSel]  = { col_gray4, col_gruv_redL,  col_gruv_redL  },
 };
 
 /* tagging */
@@ -280,7 +306,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -297,18 +323,18 @@ static const char *termcmd[]  = { "kitty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -355,5 +381,28 @@ static const Button buttons[] = {
 
 #+end_src
 
+* User Dotfiles
 
-* [[org:../nixos-config/user/README.org][User README File]]
+- These are the files that are not controlled by the flake or by the base NixOS config
+- Soon will be moved to a home-manager setup
+
+** Starship Config
+
+#+begin_src toml :tangle ~/.config/starship.toml
+add_newline = true
+
+[character]
+error_symbol = "[➜](bold red)"
+success_symbol = "[➜](bold blue)"
+
+[package]
+disabled = false
+#+end_src
+
+** __ Config
+
+#+begin_src
+
+
+
+#+end_src

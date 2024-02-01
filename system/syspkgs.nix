@@ -21,13 +21,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    alacritty
+    alacritty aspell
     brave btop bibata-cursors
     discord dunst dmenu
     dracula-icon-theme dracula-theme
     fd
     gparted gcc gruvbox-gtk-theme gruvbox-dark-icons-gtk git gimp gnumake gnome.adwaita-icon-theme
     htop
+    ispell
     kitty
     libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
     mpv
