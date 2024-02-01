@@ -3,19 +3,22 @@
 #+description: What NixOS is and my configuration
 
 
-[[./user/README.org][this is a test]]
-
-* TABLE OF CONTENTS :toc@3:
+* TABLE OF CONTENTS :toc@4:
 - [[#what-is-nixos][What Is NixOS]]
+- [[#useful-nix-commands][Useful Nix Commands]]
 - [[#what-are-nix-flakes][What Are Nix Flakes]]
 - [[#my-current-nixos-configuration-using-nix-flakes][My Current NixOS Configuration Using Nix Flakes]]
   - [[#flakenix-configuration][Flake.nix Configuration]]
     - [[#configurationnix-configuration][Configuration.nix Configuration]]
+      - [[#bluetoothnix-file][Bluetooth.nix File]]
+      - [[#virt-managernix][Virt-manager.nix]]
+      - [[#syspackagesnix-file][SysPackages.nix File]]
     - [[#dwmnix-file][Dwm.nix File]]
-    - [[#dwm-configh-configuration][Dwm config.h Configuration]]
+      - [[#dwm-configh-configuration][Dwm config.h Configuration]]
+  - [[#homenix-configuration][Home.nix Configuration]]
 - [[#user-dotfiles][User Dotfiles]]
   - [[#starship-config][Starship Config]]
-  - [[#__-config][__ Config]]
+- [[#and-i-can-link-to-other-org-files-in-this-repo][And I can Link To Other Org Files In This Repo]]
 
 * What Is NixOS
 
@@ -23,6 +26,17 @@
 - Only difference is that the system configurations other then user customization is all done in one file and is rebuilt on each install
 - The configuration is written in a functional programming language called Nix
 - The Nix programming uses nix to create and nix package which is then used to
+
+* Useful Nix Commands
+
+- sudo nixos-rebuild switch/test
+  * This command will reinstall the entire system and add a new entry to boot loader if used switch, test will do the same other than adding it to boot loader
+
+- sudo nixos-rebuild switch/ test --flake ./path/to/flake.nix
+  * Rebuilds the system with a flake rather than default configuration.nixos
+
+- sudo nix-collect-garbage --delete-older-than 15d
+  * Will remove unused packages and boot loader entries
 
 * What Are Nix Flakes
 
@@ -43,6 +57,11 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+
+#    home-manager = {
+#      url = "github:nix-community/home-manager";
+#      inputs.nixpkgs.follows = "nixpkgs";
+#    };
   };
 
   outputs = { self, nixpkgs }:
@@ -61,6 +80,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
         specialArgs = { inherit system; };
         modules = [
           ./profiles/personal-dwm/configuration.nix
+#          inputs.home-manager.nixosModules.default
         ];
       };
     };
@@ -77,6 +97,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
   imports =
     [
       ../../system/hardware-configuration.nix
+#      inputs.home-manager.nixosModules.default
       ../../system/syspkgs.nix
       ../../system/bluetooth.nix
       ../../system/virt-manager.nix
@@ -154,6 +175,13 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
     ];
   };
+
+#  home-manager = {
+#    extraSpecialArgs = { inherit inputs; }
+#    users = {
+#      "rileyl" = import ./home.nix;
+#    };
+#  };
 
   system.stateVersion = "23.11";
 }
@@ -251,7 +279,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 }
 #+end_src
 
-*** Dwm config.h Configuration
+**** Dwm config.h Configuration
 
 #+begin_src c :tangle ./user/wm/dwm/config.def.h
 /* appearance */
@@ -381,6 +409,87 @@ static const Button buttons[] = {
 
 #+end_src
 
+** Home.nix Configuration
+
+#+begin_src nix :tangle ./home.nix
+{ config, pkgs, ... }:
+
+{
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = "rileyl";
+  home.homeDirectory = "/home/rileyl";
+
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "23.11"; # Please read the comment before changing.
+
+  # The home.packages option allows you to install Nix packages into your
+  # environment.
+  home.packages = [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
+
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+  ];
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
+
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. If you don't want to manage your shell through Home
+  # Manager then you have to manually source 'hm-session-vars.sh' located at
+  # either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/rileyl/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    # EDITOR = "emacs";
+  };
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+}
+
+#+end_src
+
 * User Dotfiles
 
 - These are the files that are not controlled by the flake or by the base NixOS config
@@ -399,10 +508,5 @@ success_symbol = "[➜](bold blue)"
 disabled = false
 #+end_src
 
-** __ Config
 
-#+begin_src
-
-
-
-#+end_src
+* And I can Link To Other Org Files In [[./user/README.org][This Repo]]

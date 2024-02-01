@@ -4,6 +4,7 @@
   imports =
     [
       ../../system/hardware-configuration.nix
+#      inputs.home-manager.nixosModules.default
       ../../system/syspkgs.nix
       ../../system/bluetooth.nix
       ../../system/virt-manager.nix
@@ -81,6 +82,13 @@
 
     ];
   };
+
+#  home-manager = {
+#    extraSpecialArgs = { inherit inputs; }
+#    users = {
+#      "rileyl" = import ./home.nix;
+#    };
+#  };
 
   system.stateVersion = "23.11";
 }
