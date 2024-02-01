@@ -35,12 +35,11 @@
     pavucontrol papirus-icon-theme picom prismlauncher
     qemu_full
     rofi rose-pine-icon-theme ripgrep
+    starship sxhkd slock steam st sweet
     tela-circle-icon-theme thonny thunderbird
     vim
-    starship sxhkd slock
     yt-dlp
     xfce.thunar
-    steam st sweet
     obs-studio
   ];
 }
