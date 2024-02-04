@@ -14,13 +14,14 @@ static const char col_cyan[]        = "#005577";
 static const char col_yell[]        = "#F1D357";
 static const char col_pink[]        = "#EE6D85";
 static const char col_teal[]        = "#38A89D";
+static const char col_drac[]        = "#bd93f9";
 static const char col_gruv_yell[]           = "#b57614";
 static const char col_gruv_orng[]           = "#d65d0e";
 static const char col_gruv_redL[]           = "#fb4934";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gruv_redL,  col_gruv_redL  },
+	[SchemeSel]  = { col_gray4, col_drac,  col_drac  },
 };
 
 /* tagging */

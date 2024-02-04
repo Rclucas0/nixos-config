@@ -32,15 +32,15 @@
     kitty
     libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
     mpv
-    newsboat neofetch neovim nitrogen
+    newsboat neofetch neovim neovide nitrogen
+    obs-studio OVMF
     pavucontrol papirus-icon-theme picom prismlauncher
     qemu_full
     rofi rose-pine-icon-theme ripgrep
-    starship sxhkd slock steam st sweet
+    starship sxhkd slock steam st sweet swtpm
     tela-circle-icon-theme thonny thunderbird
     vim
     yt-dlp
     xfce.thunar
-    obs-studio
   ];
 }

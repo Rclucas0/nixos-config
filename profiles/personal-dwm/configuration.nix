@@ -4,7 +4,6 @@
   imports =
     [
       ../../system/hardware-configuration.nix
-#      inputs.home-manager.nixosModules.default
       ../../system/syspkgs.nix
       ../../system/bluetooth.nix
       ../../system/virt-manager.nix

@@ -1,19 +1,40 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "rileyl";
   home.homeDirectory = "/home/rileyl";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
+
+  imports = [
+    ./user/starship.nix
+
+    ];
+
+#  programs.starship = {
+#    enable = true;
+#    settings = {
+#      aws.style = "bold #ffb86c";
+#      cmd_duration.style = "bold #f1fa8c";
+#      directory.style = "bold #50fa7b";
+#      hostname.style = "bold #ff5555";
+#      git_branch.style = "bold #ff79c6";
+#      git_status.style = "bold #ff5555";
+#      username = {
+#        format = "[$user]($style) on ";
+#        style_user = "bold #bd93f9";
+#      };
+#      character = {
+#        success_symbol = "[](bold #f8f8f2)";
+#        error_symbol = "[](bold #ff5555)";
+#      };
+#    };
+#  };
+
+
+
+
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
