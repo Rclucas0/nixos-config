@@ -12,7 +12,15 @@
 
     ];
 
-#  programs.starship = {
+
+
+      # Install & Configure Git
+  programs.git = {
+    enable = true;
+    userName = "Riley Lucas";
+    userEmail = "rclucas0@gmail.com";
+  };
+  #  programs.starship = {
 #    enable = true;
 #    settings = {
 #      aws.style = "bold #ffb86c";

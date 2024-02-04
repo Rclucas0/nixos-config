@@ -20,8 +20,23 @@
     package = pkgs.emacs;
   };
 
+
+  fonts.packages = with pkgs; [
+    nerdfonts
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    font-awesome
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+  ];
+
   environment.systemPackages = with pkgs; [
-    alacritty aspell
+    alacritty aspell aspellDicts.en
     brave btop bibata-cursors
     discord dunst dmenu
     dracula-icon-theme dracula-theme
@@ -34,7 +49,7 @@
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
-    pavucontrol papirus-icon-theme picom prismlauncher
+    pavucontrol papirus-icon-theme picom prismlauncher polkit_gnome
     qemu_full
     rofi rose-pine-icon-theme ripgrep
     starship sxhkd slock steam st sweet swtpm
