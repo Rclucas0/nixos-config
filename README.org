@@ -49,7 +49,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 - This is my current set up of NixOS using a flake to setup the main system
 - I am also using emacs org-mode to set up most of this config and what you are reading now
 
-[[1mon-gruvbox-dwm.png][My Dwm NixOS Flake]]
+[[./1mon-gruvbox-dwm.png]]
 
 * Flake.nix Configuration
 
