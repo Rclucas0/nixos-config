@@ -50,7 +50,6 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 * Flake.nix Configuration
 
-
 #+begin_src nix :tangle ./flake.nix
 
 {
@@ -60,6 +59,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-colors.url = "github:misterio77/nix-colors";
   };
   outputs = inputs@{ nixpkgs, home-manager, ... }:
   let
@@ -70,6 +70,8 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     username = "rileyl";
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
+    flakeDir = "/home/${username}/nixos-config";
+    theme = "isotope";
 
     pkgs = import nixpkgs {
       inherit system;
@@ -84,12 +86,15 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
           inherit system; inherit inputs;
           inherit username; inherit hostname;
           inherit gitUsername; inherit gitEmail;
+          inherit flakeDir;
         };
 	    modules = [ ./profiles/personal-dwm/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = {
               inherit username; inherit gitEmail;
               inherit inputs; inherit gitUsername;
+              inherit flakeDir; inherit theme;
+              inherit (inputs.nix-colors.lib-contrib {inherit pkgs;}) gtkThemeFromScheme;
             };
 	        home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -159,7 +164,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 ** Home.nix Configuration
 
 #+begin_src nix :tangle ./home.nix
-{ config, pkgs, inputs, gitEmail, gitUsername, username, ... }:
+{ gtkThemeFromScheme, config, pkgs, inputs, gitEmail, gitUsername, username, theme, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -168,12 +173,19 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+
+  colorScheme = inputs.nix-colors.colorSchemes."${theme}";
+
+
   imports = [
     ./user/starship.nix
+    ./user/bash.nix
+    ./user/kitty.nix
+    inputs.nix-colors.homeManagerModules.default
+  ];
 
-    ];
 
-  # Install & Configure Git
+    # Install & Configure Git
   programs.git = {
     enable = true;
     userName = "${gitUsername}";
@@ -296,6 +308,84 @@ ctrl + {_}{p}
 
 *** Bash Config
 
-#+begin_src nix ./
 
+{
+  # Configure Bash
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    profileExtra = ''
+      #if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+      #  exec Hyprland
+      #fi
+    '';
+    initExtra = ''
+      neofetch
+      if [ -f $HOME/.bashrc-personal ]; then
+        source $HOME/.bashrc-personal
+      fi
+    '';
+    sessionVariables = {
+
+    };
+    shellAliases = {
+      sv="sudo vim";
+      flake-rebuild="sudo nixos-rebuild switch --flake ${flakeDir}";
+      flake-update="sudo nix flake update ${flakeDir}";
+      gcCleanup="nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
+      v="vim";
+      ls="lsd";
+      ll="lsd -l";
+      la="lsd -a";
+      lal="lsd -al";
+      ".."="cd ..";
+    };
+  };
+}
+
+
+
+
+#+begin_src nix :tangle ./user/bash.nix
+{ config, pkgs, flakeDir, ... }:
+
+{
+
+  # Configure Bash
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    profileExtra = ''
+      #if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+      #  exec Hyprland
+      #fi
+    '';
+
+
+    initExtra = ''
+      neofetch
+      export PATH=$PATH:/home/$USER/.config/emacs/bin
+      '';
+
+
+    sessionVariables = {
+
+    };
+
+    shellAliases = {
+      sv="sudo vim";
+      flake-rebuild="sudo nixos-rebuild switch --flake ${flakeDir}";
+      flake-update="sudo nix flake update ${flakeDir}";
+      gcCleanup="nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
+      v="vim";
+      b="vim";
+      nv="nvim";
+      ls="lsd";
+      ll="lsd -l";
+      la="lsd -a";
+      lal="lsd -al";
+      ".."="cd ..";
+    };
+  };
+}
 #+end_src

@@ -207,7 +207,7 @@
     pavucontrol papirus-icon-theme picom prismlauncher polkit_gnome
     qemu_full
     rofi rose-pine-icon-theme ripgrep
-    starship sxhkd slock steam st sweet swtpm
+    sxhkd slock steam st sweet swtpm
     tela-circle-icon-theme thonny thunderbird
     vim
     yt-dlp
