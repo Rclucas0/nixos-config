@@ -12,12 +12,10 @@
       #fi
     '';
 
-
     initExtra = ''
       neofetch
       export PATH=$PATH:/home/$USER/.config/emacs/bin
       '';
-
 
     sessionVariables = {
 

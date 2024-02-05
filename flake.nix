@@ -17,7 +17,7 @@
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
     flakeDir = "/home/${username}/nixos-config";
-    theme = "isotope";
+    theme = "dracula";
 
     pkgs = import nixpkgs {
       inherit system;

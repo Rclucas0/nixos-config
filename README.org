@@ -16,6 +16,9 @@
     - [[#starshipnix][Starship.nix]]
     - [[#sxhkd-config][Sxhkd Config]]
     - [[#bash-config][Bash Config]]
+    - [[#rofi-config][Rofi Config]]
+    - [[#gtk-themeing][Gtk Themeing]]
+    - [[#place_holder][Place_Holder]]
 
 * What Is NixOS
 
@@ -71,7 +74,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
     flakeDir = "/home/${username}/nixos-config";
-    theme = "isotope";
+    theme = "dracula";
 
     pkgs = import nixpkgs {
       inherit system;
@@ -173,17 +176,18 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
-
 
   imports = [
     ./user/starship.nix
     ./user/bash.nix
     ./user/kitty.nix
+    ./user/rofi.nix
+    ./user/gtk-gt.nix
     inputs.nix-colors.homeManagerModules.default
   ];
 
+  home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
 
     # Install & Configure Git
   programs.git = {
@@ -192,64 +196,14 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     userEmail = "${gitEmail}";
   };
 
-
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
   ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/rileyl/etc/profile.d/hm-session-vars.sh
-  #
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
 
@@ -308,44 +262,6 @@ ctrl + {_}{p}
 
 *** Bash Config
 
-
-{
-  # Configure Bash
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    profileExtra = ''
-      #if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-      #  exec Hyprland
-      #fi
-    '';
-    initExtra = ''
-      neofetch
-      if [ -f $HOME/.bashrc-personal ]; then
-        source $HOME/.bashrc-personal
-      fi
-    '';
-    sessionVariables = {
-
-    };
-    shellAliases = {
-      sv="sudo vim";
-      flake-rebuild="sudo nixos-rebuild switch --flake ${flakeDir}";
-      flake-update="sudo nix flake update ${flakeDir}";
-      gcCleanup="nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
-      v="vim";
-      ls="lsd";
-      ll="lsd -l";
-      la="lsd -a";
-      lal="lsd -al";
-      ".."="cd ..";
-    };
-  };
-}
-
-
-
-
 #+begin_src nix :tangle ./user/bash.nix
 { config, pkgs, flakeDir, ... }:
 
@@ -361,12 +277,10 @@ ctrl + {_}{p}
       #fi
     '';
 
-
     initExtra = ''
       neofetch
       export PATH=$PATH:/home/$USER/.config/emacs/bin
       '';
-
 
     sessionVariables = {
 
@@ -389,3 +303,153 @@ ctrl + {_}{p}
   };
 }
 #+end_src
+
+*** Rofi Config
+
+#+begin_src nix :tangle ./user/rofi.nix
+{ pkgs, config, ... }:
+
+let
+  palette = config.colorScheme.palette;
+in {
+  home.file.".config/rofi/config.rasi".text = ''
+    @theme "/dev/null"
+
+    * {
+        bg: #${palette.base00};
+        background-color: @bg;
+    }
+
+    configuration {
+	    show-icons: true;
+	    icon-theme: "Papirus";
+	    location: 0;
+	    font: "Ubuntu 12";
+	    display-drun: "Launch:";
+    }
+
+    window {
+	    width: 35%;
+	    transparency: "real";
+	    orientation: vertical;
+	    border-color: #${palette.base0B};
+        border-radius: 10px;
+    }
+
+    mainbox {
+	    children: [inputbar, listview];
+    }
+
+
+    // ELEMENT
+    // -----------------------------------
+
+    element {
+	    padding: 4 12;
+	    text-color: #${palette.base05};
+        border-radius: 5px;
+    }
+
+    element selected {
+	    text-color: #${palette.base01};
+	    background-color: #${palette.base0B};
+    }
+
+    element-text {
+	    background-color: inherit;
+	    text-color: inherit;
+    }
+
+    element-icon {
+	    size: 16 px;
+	    background-color: inherit;
+	    padding: 0 6 0 0;
+	    alignment: vertical;
+    }
+
+    listview {
+	    columns: 2;
+	    lines: 9;
+	    padding: 8 0;
+	    fixed-height: true;
+	    fixed-columns: true;
+	    fixed-lines: true;
+	    border: 0 10 6 10;
+    }
+
+    // INPUT BAR
+    //------------------------------------------------
+
+    entry {
+	    text-color: #${palette.base05};
+	    padding: 10 10 0 0;
+	    margin: 0 -2 0 0;
+    }
+
+    inputbar {
+	    background-image: url("~/.config/rofi/rofi.jpg", width);
+	    padding: 180 0 0;
+	    margin: 0 0 0 0;
+    }
+
+    prompt {
+	    text-color: #${palette.base0D};
+	    padding: 10 6 0 10;
+	    margin: 0 -2 0 0;
+    }
+  '';
+}
+#+end_src
+
+*** Gtk Themeing
+
+#+begin_src nix :tangle ./user/gtk-gt.nix
+{ pkgs, config, gtkThemeFromScheme, ... }:
+
+{
+  # Configure Cursor Theme
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 24;
+  };
+
+  # Theme GTK
+  gtk = {
+    enable = true;
+    font = {
+      name = "Ubuntu";
+      size = 12;
+      package = pkgs.ubuntu_font_family;
+    };
+    theme = {
+      name = "${config.colorScheme.slug}";
+      package = gtkThemeFromScheme {scheme = config.colorScheme;};
+    };
+    iconTheme = {
+      name = "candy-icons";
+      package = pkgs.candy-icons;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme=1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme=1;
+    };
+  };
+
+  # Theme QT -> GTK
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style = {
+        name = "adwaita-dark";
+        package = pkgs.adwaita-qt;
+    };
+  };
+}
+#+end_src
+
+*** Place_Holder
