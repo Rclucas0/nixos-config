@@ -14,8 +14,8 @@
 - [[#user-dotfiles][User Dotfiles]]
   - [[#homenix-configuration][Home.nix Configuration]]
     - [[#starshipnix][Starship.nix]]
-    - [[#starship-config][Starship Config]]
     - [[#sxhkd-config][Sxhkd Config]]
+    - [[#bash-config][Bash Config]]
 
 * What Is NixOS
 
@@ -50,7 +50,64 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 * Flake.nix Configuration
 
+
 #+begin_src nix :tangle ./flake.nix
+
+{
+  description = "ZaneyOS";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  let
+    system = "x86_64-linux";
+
+    # User Variables
+    hostname = "nixos";
+    username = "rileyl";
+    gitUsername = "Riley Lucas";
+    gitEmail = "rclucas0@gmail.com";
+
+    pkgs = import nixpkgs {
+      inherit system;
+      config = {
+	    allowUnfree = true;
+      };
+    };
+  in {
+    nixosConfigurations = {
+      "${hostname}" = nixpkgs.lib.nixosSystem {
+	    specialArgs = {
+          inherit system; inherit inputs;
+          inherit username; inherit hostname;
+          inherit gitUsername; inherit gitEmail;
+        };
+	    modules = [ ./profiles/personal-dwm/configuration.nix
+          home-manager.nixosModules.home-manager {
+	        home-manager.extraSpecialArgs = {
+              inherit username; inherit gitEmail;
+              inherit inputs; inherit gitUsername;
+            };
+	        home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+	        home-manager.users.${username} = import ./home.nix;
+	      }
+	    ];
+      };
+    };
+  };
+}
+
+
+#+end_src
+
+
+
+#+begin_src nix ./flake.nix
 {
   description = "My Nix Flake Configuration With Dwm";
 
@@ -70,16 +127,24 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         inherit system;
-        modules = [ ./profiles/personal-dwm/configuration.nix ];
+        modules = [ ./profiles/personal-dwm/configuration.nix
+                home-manager.extraSpecialArgs = { inherit inputs; };
+	        home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+	        home-manager.users.rileyl = import ./home.nix;
+	      }
+
+       ];
       };
     };
 
-    homeConfigurations = {
-      rileyl = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-      };
-    };
+#    homeConfigurations = {
+#      rileyl = home-manager.lib.homeManagerConfiguration {
+#        inherit pkgs;
+#        modules = [ ./home.nix ];
+#      };
+#    };
   };
 }
 #+end_src
@@ -94,13 +159,13 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 ** Home.nix Configuration
 
 #+begin_src nix :tangle ./home.nix
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, gitEmail, gitUsername, username, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "rileyl";
-  home.homeDirectory = "/home/rileyl";
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   imports = [
@@ -108,35 +173,12 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
     ];
 
-
-
-      # Install & Configure Git
+  # Install & Configure Git
   programs.git = {
     enable = true;
-    userName = "Riley Lucas";
-    userEmail = "rclucas0@gmail.com";
+    userName = "${gitUsername}";
+    userEmail = "${gitEmail}";
   };
-  #  programs.starship = {
-#    enable = true;
-#    settings = {
-#      aws.style = "bold #ffb86c";
-#      cmd_duration.style = "bold #f1fa8c";
-#      directory.style = "bold #50fa7b";
-#      hostname.style = "bold #ff5555";
-#      git_branch.style = "bold #ff79c6";
-#      git_status.style = "bold #ff5555";
-#      username = {
-#        format = "[$user]($style) on ";
-#        style_user = "bold #bd93f9";
-#      };
-#      character = {
-#        success_symbol = "[](bold #f8f8f2)";
-#        error_symbol = "[](bold #ff5555)";
-#      };
-#    };
-#  };
-
-
 
 
 
@@ -230,19 +272,6 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 #+end_src
 
-*** Starship Config
-
-#+begin_src toml ~/.config/starship.toml
-add_newline = true
-
-[character]
-error_symbol = "[➜](bold red)"
-success_symbol = "[➜](bold blue)"
-
-[package]
-disabled = false
-#+end_src
-
 *** Sxhkd Config
 
 #+begin_src bash :tangle ~/.config/sxhkd/sxhkdrc
@@ -265,3 +294,8 @@ ctrl + {_}{p}
 	{flameshot gui}
 #+end_src
 
+*** Bash Config
+
+#+begin_src nix ./
+
+#+end_src
