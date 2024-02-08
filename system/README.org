@@ -175,6 +175,7 @@
     package = pkgs.emacs;
   };
 
+  programs.fish.vendor.completions.enable = true;
 
   fonts.packages = with pkgs; [
     nerdfonts
@@ -185,30 +186,29 @@
     font-awesome
     fira-code
     fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
   ];
 
   environment.systemPackages = with pkgs; [
-    alacritty aspell aspellDicts.en
-    brave btop bibata-cursors
+    alacritty aspell aspellDicts.en asciiquarium
+    brave btop
+    cmake
     discord dunst dmenu
-    dracula-icon-theme dracula-theme
-    fd flameshot
-    gparted gcc gruvbox-gtk-theme gruvbox-dark-icons-gtk git gimp gnumake gnome.adwaita-icon-theme
+#    emacs
+    emacsPackages.all-the-icons
+    fd flameshot fish
+    gparted gcc git gimp gnumake gnome.adwaita-icon-theme
     htop
     ispell
     kitty
-    libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
+    lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
-    pavucontrol papirus-icon-theme picom prismlauncher polkit_gnome
+    pavucontrol picom prismlauncher polkit_gnome
     qemu_full
-    rofi rose-pine-icon-theme ripgrep
-    sxhkd slock steam st sweet swtpm
-    tela-circle-icon-theme thonny thunderbird
+    rofi ripgrep
+    sxhkd slock steam st swtpm
+    thonny thunderbird
     vim
     yt-dlp
     xfce.thunar

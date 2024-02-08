@@ -1,5 +1,5 @@
 {
-  description = "ZaneyOS";
+  description = "My Dwm Flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -17,7 +17,7 @@
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
     flakeDir = "/home/${username}/nixos-config";
-    theme = "dracula";
+    theme = "gruvbox-material-dark-hard";
 
     pkgs = import nixpkgs {
       inherit system;

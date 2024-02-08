@@ -10,7 +10,7 @@
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
 
   imports = [
-    ./user/starship.nix
+   ./user/starship.nix
     ./user/bash.nix
     ./user/kitty.nix
     ./user/rofi.nix
@@ -19,6 +19,9 @@
   ];
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
+  home.file.".config/starship.toml".source = ./user/starship.toml;
+  home.file.".face".source = ./user/face.jpg;
+
 
     # Install & Configure Git
   programs.git = {

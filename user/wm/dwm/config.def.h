@@ -21,7 +21,7 @@ static const char col_gruv_redL[]           = "#fb4934";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_drac,  col_drac  },
+	[SchemeSel]  = { col_gray4, col_gruv_redL,  col_gruv_redL  },
 };
 
 /* tagging */
@@ -35,6 +35,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "emacs",    NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
