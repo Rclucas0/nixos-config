@@ -49,7 +49,7 @@
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
-    pavucontrol picom prismlauncher polkit_gnome
+    pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
     sxhkd slock steam st swtpm

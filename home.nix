@@ -15,13 +15,20 @@
     ./user/kitty.nix
     ./user/rofi.nix
     ./user/gtk-gt.nix
+    ./user/hyprland.nix
+#    ./user/wm/dwm.nix
     inputs.nix-colors.homeManagerModules.default
+    inputs.hyprland.homeManagerModules.default
   ];
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
   home.file.".face".source = ./user/face.jpg;
 
+  # Define Settings For Xresources
+  xresources.properties = {
+    "Xcursor.size" = 24;
+  };
 
     # Install & Configure Git
   programs.git = {
@@ -30,12 +37,19 @@
     userEmail = "${gitEmail}";
   };
 
-  home.packages = [
+  # Create XDG Dirs
+  xdg = {
+    userDirs = {
+        enable = true;
+        createDirectories = true;
+    };
+  };
 
-  ];
-
-  home.sessionVariables = {
-    # EDITOR = "emacs";
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 
   programs.home-manager.enable = true;

@@ -3,7 +3,6 @@
 #+description:
 
 
-
 * Configuration.nix Configuration
 
 #+begin_src nix :tangle ../profiles/personal-dwm/configuration.nix
@@ -16,6 +15,7 @@
       ../../system/syspkgs.nix
       ../../system/bluetooth.nix
       ../../system/virt-manager.nix
+      ../../system/syncthing.nix
       ../../user/wm/dwm.nix
 
     ];
@@ -93,8 +93,22 @@
 #    xkbVariant = "";
   };
 
-  # Enable Flakes And Nix Commands
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # Optimization settings and garbage collection automation
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -204,7 +218,7 @@
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
-    pavucontrol picom prismlauncher polkit_gnome
+    pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
     sxhkd slock steam st swtpm
@@ -213,5 +227,24 @@
     yt-dlp
     xfce.thunar
   ];
+}
+#+end_src
+
+* Syncthing.nix
+#+begin_src nix :tangle ./syncthing.nix
+{config, pkgs, ...}:
+{
+services = {
+    syncthing = {
+        enable = false;
+        user = "rileyl";
+        dataDir = "/home/rileyl/Documents";    # Default folder for new synced folders
+        configDir = "/home/rileyl/Documents/.config/syncthing";   # Folder for Syncthing's settings and keys
+        settings.gui = {
+          user = "rileyl";
+          password = "Lucas4321";
+        };
+    };
+};
 }
 #+end_src
