@@ -2,7 +2,7 @@
 {
   imports =
     [
-      ../hardware-configuration.nix
+      ../hardware.nix
      ../user/wm/dwm.nix
     ];
   system.stateVersion = "23.11";
@@ -128,6 +128,7 @@
 
   fonts.packages = with pkgs; [
     nerdfonts
+    ubuntu_font_family
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji

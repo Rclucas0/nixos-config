@@ -14,9 +14,9 @@
   gtk = {
     enable = true;
     font = {
-      name = "Ubuntu";
-      size = 12;
-      package = pkgs.ubuntu_font_family;
+      name = "OpenDyslexicAlt Nerd Font";
+      size = 10;
+      package = pkgs.nerdfonts;
     };
     theme = {
       name = "${config.colorScheme.slug}";

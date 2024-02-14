@@ -10,7 +10,6 @@
 - [[#my-current-nixos-configuration-using-nix-flakes][My Current NixOS Configuration Using Nix Flakes]]
   - [[#flakenix-configuration][Flake.nix Configuration]]
   - [[#homenix-configuration][Home.nix Configuration]]
-    - [[#user-dotfiles][User Dotfiles]]
     - [[#starshipnix][Starship.nix]]
     - [[#sxhkd-config][Sxhkd Config]]
     - [[#bash-config][Bash Config]]
@@ -52,7 +51,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 ** Flake.nix Configuration
 
-#+begin_src nix :tangle ./flake.nix
+#+begin_src nix :tangle flake.nix
 {
   description = "My Dwm Flake";
 
@@ -77,7 +76,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
     flakeDir = "/home/${username}/nixos-config";
-    theme = "gruvbox-material-dark-hard";
+    theme = "material-palenight";
 
     pkgs = import nixpkgs {
       inherit system;
@@ -116,12 +115,9 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 ** Home.nix Configuration
 
-#+begin_src nix :tangle ./home.nix
+#+begin_src nix :tangle home.nix
 { gtkThemeFromScheme, config, pkgs, inputs, gitEmail, gitUsername, username, theme, ... }:
-
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -140,6 +136,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
+  home.file.".config/sxhkd/sxhkdrc".source = ./user/sxhkdrc;
 
   # Define Settings For Xresources
   xresources.properties = {
@@ -170,16 +167,11 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
   programs.home-manager.enable = true;
 }
-
 #+end_src
-
-*** User Dotfiles
-
-- These are the files that are not controlled by the flake or by the base NixOS config
 
 *** Starship.nix
 
-#+begin_src nix :tangle ./user/starship.nix
+#+begin_src nix :tangle user/starship.nix
 { config, pkgs, ... }:
 
 {
@@ -208,7 +200,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 *** Sxhkd Config
 
-#+begin_src bash :tangle ~/.config/sxhkd/sxhkdrc
+#+begin_src bash :tangle user/sxhkdrc
 super + BackSpace
 	pkill -USR1 -x sxhkd
 
@@ -230,7 +222,7 @@ ctrl + {_}{p}
 
 *** Bash Config
 
-#+begin_src nix :tangle ./user/bash.nix
+#+begin_src nix :tangle user/bash.nix
 { config, pkgs, flakeDir, ... }:
 
 {
@@ -274,7 +266,7 @@ ctrl + {_}{p}
 
 *** Rofi Config
 
-#+begin_src nix :tangle ./user/rofi.nix
+#+begin_src nix :tangle user/rofi.nix
 { pkgs, config, ... }:
 
 let
@@ -371,7 +363,7 @@ in {
 
 *** Gtk Themeing
 
-#+begin_src nix :tangle ./user/gtk-gt.nix
+#+begin_src nix :tangle user/gtk-gt.nix
 { pkgs, config, gtkThemeFromScheme, ... }:
 
 {
@@ -388,9 +380,9 @@ in {
   gtk = {
     enable = true;
     font = {
-      name = "Ubuntu";
-      size = 12;
-      package = pkgs.ubuntu_font_family;
+      name = "OpenDyslexicAlt Nerd Font";
+      size = 10;
+      package = pkgs.nerdfonts;
     };
     theme = {
       name = "${config.colorScheme.slug}";
@@ -422,7 +414,7 @@ in {
 
 *** Hyprland
 
-#+begin_src nix :tangle ./user/hyprland.nix
+#+begin_src nix :tangle user/hyprland.nix
 { pkgs, config, lib, inputs, ... }:
 let
   theme = config.colorScheme.palette;

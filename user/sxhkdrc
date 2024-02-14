@@ -1,0 +1,17 @@
+super + BackSpace
+	pkill -USR1 -x sxhkd
+
+super + {_}{w,a,Return,e}
+	{brave,st,kitty,emacsclient -c -a 'emacs'}
+
+super + shift + {_}{d}
+	{rofi -show drun}
+
+alt + {_}{d,s,r,h,m,g}
+	{discord,steam,dmenu_run,flatpak run com.heroicgameslauncher.hgl,prismlauncher,gimp}
+
+alt + shift + {_}{p,Return}
+	{pavucontrol,thunar}
+
+ctrl + {_}{p}
+	{flameshot gui}

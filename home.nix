@@ -1,8 +1,5 @@
 { gtkThemeFromScheme, config, pkgs, inputs, gitEmail, gitUsername, username, theme, ... }:
-
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -21,6 +18,7 @@
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
+  home.file.".config/sxhkd/sxhkdrc".source = ./user/sxhkdrc;
 
   # Define Settings For Xresources
   xresources.properties = {
