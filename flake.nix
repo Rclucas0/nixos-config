@@ -22,7 +22,7 @@
     gitUsername = "Riley Lucas";
     gitEmail = "rclucas0@gmail.com";
     flakeDir = "/home/${username}/nixos-config";
-    theme = "material-palenight";
+    theme = "oceanicnext";
 
     pkgs = import nixpkgs {
       inherit system;

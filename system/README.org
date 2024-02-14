@@ -226,10 +226,10 @@
     pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
-    sxhkd slock steam st swtpm
+    sxhkd slock steam st swtpm slock
     thonny thunderbird
     vim
-    xfce.thunar xorg.xmodmap
+    xfce.thunar xorg.xmodmap xss-lock
     yt-dlp
   ];
 #+end_src
