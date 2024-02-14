@@ -1,28 +1,3 @@
-#+title: System Configuration
-#+author: Riley Lucas
-#+description:
-#+property: header-args :tangle configuration.nix
-
-* TABLE OF CONTENTS :toc:
-- [[#configurationnix][Configuration.nix]]
-  - [[#imports][Imports]]
-  - [[#bootloader][Bootloader]]
-  - [[#networking][Networking]]
-  - [[#systemd][Systemd]]
-  - [[#datetime--location][Date/Time & Location]]
-  - [[#optimization--garbage-collection][Optimization & garbage collection]]
-  - [[#enable-sound-with-pipewire][Enable Sound with Pipewire]]
-  - [[#user-configuration][User Configuration]]
-  - [[#hyprland][Hyprland]]
-  - [[#bluetooth--start-on-boot][Bluetooth & Start on Boot]]
-  - [[#ssh][SSH]]
-  - [[#system-packages][System Packages]]
-  - [[#services][Services]]
-
-* Configuration.nix
-** Imports
-
-#+begin_src nix
 { config, pkgs, inputs, ... }:
 {
   imports =
@@ -31,31 +6,19 @@
      ../user/wm/dwm.nix
     ];
   system.stateVersion = "23.11";
-#+end_src
 
-** Bootloader
-
-#+begin_src nix
   boot = {
    loader = {
      systemd-boot.enable = true;
      efi.canTouchEfiVariables = true;
    };
   };
-#+end_src
 
-** Networking
-
-#+begin_src nix
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
   };
-#+end_src
 
-** Systemd
-
-#+begin_src nix
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
@@ -72,11 +35,7 @@
     };
   };
   security.polkit.enable = true;
-#+end_src
 
-** Date/Time & Location
-
-#+begin_src nix
   time.timeZone = "America/Chicago";
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -92,11 +51,7 @@
       LC_TIME = "en_US.UTF-8";
     };
   };
- #+end_src
 
-** Optimization & garbage collection
-
-#+begin_src nix
   nix = {
     settings = {
       auto-optimise-store = true;
@@ -112,11 +67,7 @@
       options = "--delete-older-than 7d";
     };
   };
-#+end_src
 
-** Enable Sound with Pipewire
-
-#+begin_src nix
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -126,11 +77,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-#+end_src
 
-** User Configuration
-
-#+begin_src nix
   users.users.rileyl = {
     isNormalUser = true;
     description = "Riley Lucas";
@@ -138,31 +85,19 @@
     packages = with pkgs; [
     ];
   };
-#+end_src
 
-** Hyprland
-
-#+begin_src nix
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
-#+end_src
 
-** Bluetooth & Start on Boot
-
-#+begin_src nix
   hardware = {
     bluetooth = {
       enable = true;
       powerOnBoot = true;
     };
   };
-#+end_src
 
-** SSH
-
-#+begin_src nix
   services.openssh = {
     enable = true;
     # require public key authentication for better security
@@ -175,11 +110,7 @@
   # note: ssh-copy-id will add user@your-machine after the public key
   # but we can remove the "@your-machine" part
   ];
-#+end_src
 
-** System Packages
-
-#+begin_src nix
   nixpkgs.config.allowUnfree = true;
 
   virtualisation.libvirtd.enable = true;
@@ -230,11 +161,7 @@
     xfce.thunar xorg.xmodmap
     yt-dlp
   ];
-#+end_src
 
-** Services
-
-#+begin_src nix
 services = {
    blueman.enable = true;
     xserver = {
@@ -268,4 +195,3 @@ services = {
     };
 };
 }
-#+end_src

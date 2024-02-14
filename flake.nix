@@ -39,7 +39,7 @@
           inherit gitUsername; inherit gitEmail;
           inherit flakeDir;
         };
-	    modules = [ ./profiles/personal-dwm/configuration.nix
+	    modules = [ ./system/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = {
               inherit username; inherit gitEmail;

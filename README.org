@@ -94,7 +94,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
           inherit gitUsername; inherit gitEmail;
           inherit flakeDir;
         };
-	    modules = [ ./profiles/personal-dwm/configuration.nix
+	    modules = [ ./system/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = {
               inherit username; inherit gitEmail;
@@ -134,15 +134,12 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     ./user/kitty.nix
     ./user/rofi.nix
     ./user/gtk-gt.nix
-    ./user/hyprland.nix
-#    ./user/wm/dwm.nix
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
-  home.file.".face".source = ./user/face.jpg;
 
   # Define Settings For Xresources
   xresources.properties = {
@@ -456,5 +453,6 @@ in
   };
 }
 #+end_src
+
 ** Link To Configuration.nix [[./system/README.org][Files]]
 ** Link To Dwm Configuration [[./user/wm/README.org][Files]]

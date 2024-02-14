@@ -15,15 +15,12 @@
     ./user/kitty.nix
     ./user/rofi.nix
     ./user/gtk-gt.nix
-    ./user/hyprland.nix
-#    ./user/wm/dwm.nix
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];
 
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
-  home.file.".face".source = ./user/face.jpg;
 
   # Define Settings For Xresources
   xresources.properties = {
