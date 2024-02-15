@@ -143,7 +143,7 @@
     brave btop
     cmake
     discord dunst dmenu
-    emacsPackages.all-the-icons
+    emacsPackages.all-the-icons eww
     fd flameshot fish
     gparted gcc git gimp gnumake gnome.adwaita-icon-theme
     htop
@@ -158,6 +158,7 @@
     rofi ripgrep
     sxhkd slock steam st swtpm slock
     thonny thunderbird
+    unzip
     vim
     xfce.thunar xorg.xmodmap xss-lock
     yt-dlp

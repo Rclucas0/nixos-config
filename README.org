@@ -3,19 +3,13 @@
 #+description: What NixOS is and my configuration
 
 
-* TABLE OF CONTENTS :toc@4:
+* TABLE OF CONTENTS:toc:
 - [[#what-is-nixos][What Is NixOS]]
 - [[#useful-nix-commands][Useful Nix Commands]]
 - [[#what-are-nix-flakes][What Are Nix Flakes]]
 - [[#my-current-nixos-configuration-using-nix-flakes][My Current NixOS Configuration Using Nix Flakes]]
   - [[#flakenix-configuration][Flake.nix Configuration]]
   - [[#homenix-configuration][Home.nix Configuration]]
-    - [[#starshipnix][Starship.nix]]
-    - [[#sxhkd-config][Sxhkd Config]]
-    - [[#bash-config][Bash Config]]
-    - [[#rofi-config][Rofi Config]]
-    - [[#gtk-themeing][Gtk Themeing]]
-    - [[#hyprland][Hyprland]]
   - [[#link-to-configurationnix-files][Link To Configuration.nix Files]]
   - [[#link-to-dwm-configuration-files][Link To Dwm Configuration Files]]
 
