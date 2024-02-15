@@ -143,7 +143,7 @@
     brave btop
     cmake
     discord dunst dmenu
-    emacsPackages.all-the-icons eww
+    emacsPackages.all-the-icons emacs-all-the-icons-fonts emacsPackages.treemacs-all-the-icons eww
     fd flameshot fish
     gparted gcc git gimp gnumake gnome.adwaita-icon-theme
     htop

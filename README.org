@@ -7,11 +7,11 @@
 - [[#what-is-nixos][What Is NixOS]]
 - [[#useful-nix-commands][Useful Nix Commands]]
 - [[#what-are-nix-flakes][What Are Nix Flakes]]
-- [[#my-current-nixos-configuration-using-nix-flakes][My Current NixOS Configuration Using Nix Flakes]]
+- [[#my-nix-flake][My Nix Flake]]
   - [[#flakenix-configuration][Flake.nix Configuration]]
   - [[#homenix-configuration][Home.nix Configuration]]
-  - [[#link-to-configurationnix-files][Link To Configuration.nix Files]]
-  - [[#link-to-dwm-configuration-files][Link To Dwm Configuration Files]]
+  - [[#configurationnix][Configuration.nix]]
+  - [[#dwm-configuration][Dwm Configuration]]
 
 * What Is NixOS
 
@@ -36,7 +36,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
 
 - A Nix flake is a directory with a flake.nix and flake.lock at the root that outputs Nix expressions that others can use to do things like build packages, run programs, use development environments, or stand up NixOS systems. If necessary, flakes can use the outputs of other flakes as inputs.
 
-* My Current NixOS Configuration Using Nix Flakes
+* My Nix Flake
 
 - This is my current set up of NixOS using a flake to setup the main system
 - I am also using emacs org-mode to set up most of this config and what you are reading now
@@ -440,5 +440,7 @@ in
 }
 #+end_src
 
-** Link To Configuration.nix [[./system/README.org][Files]]
-** Link To Dwm Configuration [[./user/wm/README.org][Files]]
+** Configuration.nix
+*** Link to Config [[./system/README.org]]
+** Dwm Configuration
+*** Link to Config [[./user/wm/README.org]]
