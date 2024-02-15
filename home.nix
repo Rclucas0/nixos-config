@@ -19,6 +19,10 @@
   home.file.".config/rofi/rofi.jpg".source = ./user/rofi.jpg;
   home.file.".config/starship.toml".source = ./user/starship.toml;
   home.file.".config/sxhkd/sxhkdrc".source = ./user/sxhkdrc;
+  home.file.".config/doom/" = {
+    source = ./user/doom;
+    recursive = true;
+  };
 
   # Define Settings For Xresources
   xresources.properties = {
