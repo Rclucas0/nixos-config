@@ -6,7 +6,7 @@
 * TABLE OF CONTENTS :toc:
 - [[#theme][THEME]]
 - [[#font][Font]]
-- [[#use-package][Use-Package]]
+- [[#package-manager-configuration][Package Manager Configuration]]
 - [[#line-number][Line Number]]
 - [[#org-mode][Org-mode]]
 - [[#keybindings][Keybindings]]
@@ -16,24 +16,22 @@
 * THEME
 
 #+begin_src emacs-lisp
-
 ;; Theme Configuration ----------------------------------------------------------
 
 (setq doom-theme 'doom-oceanic-next)
 
 (add-to-list 'default-frame-alist '(alpha . 95))
 
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq visual-fill-column-width 110
+      visual-fill-column-center-text t)
+
 #+end_src
 
 * Font
-#+begin_src emacs-lisp
 
+#+begin_src emacs-lisp
 ;; Font Configuration ----------------------------------------------------------
 
-(defvar doommacs/default-font-size 120)
-
-;;(set-face-attribute 'default nil :font "OpenDyslexicAlt Nerd Font" :height doommacs/default-font-size)
 (setq doom-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 15)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
       doom-big-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 24))
@@ -50,17 +48,35 @@
 ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 295 :weight 'regular)
 #+end_src
 
-* Use-Package
-#+begin_src emacs-lisp :tangle yes
-(require 'empv)
-(require 'nov)
+* Package Manager Configuration
+
+#+begin_src emacs-lisp
+;; Package Manager Configuration  ----------------------------------------------------------
+
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
 (require 'ereader)
-(require 'neotree)
+
 #+end_src
+
 * Line Number
 
 #+begin_src emacs-lisp
-
 ;; Line-Number Configuration ----------------------------------------------------------
 
 (setq display-line-numbers-type t)
@@ -69,24 +85,32 @@
                 shell-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
 #+end_src
 
 * Org-mode
 
 #+begin_src emacs-lisp
-
 ;; Org Configuration ----------------------------------------------------------
 
 (setq org-directory "~/Notes/org/")
+
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
+(setq org-ellipsis " ▾")
+
+(defun center-org-mode ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+(add-hook 'org-mode-hook 'center-org-mode)
+
 #+end_src
 
 * Keybindings
 
 #+begin_src emacs-lisp
-
 ;; Keybinding Configuration ----------------------------------------------------------
 
 (map! :leader
@@ -95,12 +119,15 @@
 (map! :leader
       :desc "Calendar"
       "o c" #'=calendar)
+(map! :leader
+      :desc "visual-fill"
+      "t c" #'visual-fill-column-mode)
+
 #+end_src
 
 * EXWM
 
 #+begin_src emacs-lisp
-
 ;; EXWM Configuration ----------------------------------------------------------
 
 ;; (require 'exwm)

@@ -4,13 +4,11 @@
 
 (add-to-list 'default-frame-alist '(alpha . 95))
 
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq visual-fill-column-width 110
+      visual-fill-column-center-text t)
 
 ;; Font Configuration ----------------------------------------------------------
 
-(defvar doommacs/default-font-size 120)
-
-;;(set-face-attribute 'default nil :font "OpenDyslexicAlt Nerd Font" :height doommacs/default-font-size)
 (setq doom-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 15)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
       doom-big-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 24))
@@ -26,10 +24,26 @@
 ;; Set the variable pitch face
 ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 295 :weight 'regular)
 
-(require 'empv)
-(require 'nov)
+;; Package Manager Configuration  ----------------------------------------------------------
+
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
 (require 'ereader)
-(require 'neotree)
 
 ;; Line-Number Configuration ----------------------------------------------------------
 
@@ -43,9 +57,17 @@
 ;; Org Configuration ----------------------------------------------------------
 
 (setq org-directory "~/Notes/org/")
+
 (setq org-agenda-start-with-log-mode t)
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
+(setq org-ellipsis " ▾")
+
+(defun center-org-mode ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+(add-hook 'org-mode-hook 'center-org-mode)
 
 ;; Keybinding Configuration ----------------------------------------------------------
 
@@ -55,6 +77,9 @@
 (map! :leader
       :desc "Calendar"
       "o c" #'=calendar)
+(map! :leader
+      :desc "visual-fill"
+      "t c" #'visual-fill-column-mode)
 
 ;; EXWM Configuration ----------------------------------------------------------
 

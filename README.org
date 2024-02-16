@@ -3,7 +3,7 @@
 #+description: What NixOS is and my configuration
 
 
-* TABLE OF CONTENTS:toc:
+* TABLE OF CONTENTS :toc:
 - [[#what-is-nixos][What Is NixOS]]
 - [[#useful-nix-commands][Useful Nix Commands]]
 - [[#what-are-nix-flakes][What Are Nix Flakes]]
@@ -448,3 +448,4 @@ in
 *** Link to Config [[./system/README.org]]
 ** Dwm Configuration
 *** Link to Config [[./user/wm/README.org]]
+test

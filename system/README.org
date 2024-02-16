@@ -220,7 +220,7 @@
     htop
     ispell
     kitty
-    lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance
+    lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance libtool
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
