@@ -9,7 +9,9 @@
 
 ;; Font Configuration ----------------------------------------------------------
 
-(setq doom-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 15)
+;;(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+;;(setq doom-font (font-spec :family "OpenDyslexic Nerd Font" :size 15)
+(setq doom-font (font-spec :family "hack" :size 15)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
       doom-big-font (font-spec :family "OpenDyslexicAlt Nerd Font" :size 24))
 ;;(after! doom-themes

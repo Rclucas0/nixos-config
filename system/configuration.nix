@@ -127,6 +127,7 @@
   };
 
   fonts.packages = with pkgs; [
+    hack-font
     nerdfonts
     ubuntu_font_family
     noto-fonts
