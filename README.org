@@ -3,15 +3,23 @@
 #+description: What NixOS is and my configuration
 
 
-* TABLE OF CONTENTS :toc:
+* TABLE OF CONTENTS :toc@3:
 - [[#what-is-nixos][What Is NixOS]]
 - [[#useful-nix-commands][Useful Nix Commands]]
 - [[#what-are-nix-flakes][What Are Nix Flakes]]
 - [[#my-nix-flake][My Nix Flake]]
   - [[#flakenix-configuration][Flake.nix Configuration]]
   - [[#homenix-configuration][Home.nix Configuration]]
+    - [[#starshipnix][Starship.nix]]
+    - [[#sxhkd-config][Sxhkd Config]]
+    - [[#bash-config][Bash Config]]
+    - [[#rofi-config][Rofi Config]]
+    - [[#gtk-themeing][Gtk Themeing]]
+    - [[#hyprland][Hyprland]]
   - [[#configurationnix][Configuration.nix]]
+    - [[#link-to-config-systemreadmeorg][Link to Config [[./system/README.org]]]]
   - [[#dwm-configuration][Dwm Configuration]]
+    - [[#link-to-config-userwmreadmeorg][Link to Config [[./user/wm/README.org]]]]
 
 * What Is NixOS
 
@@ -448,4 +456,3 @@ in
 *** Link to Config [[./system/README.org]]
 ** Dwm Configuration
 *** Link to Config [[./user/wm/README.org]]
-test
