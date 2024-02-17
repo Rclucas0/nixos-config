@@ -151,13 +151,14 @@
     ispell
     kitty
     lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance libtool
+    lispPackages.quicklisp
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
     pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
-    sxhkd slock steam st swtpm slock
+    sxhkd slock steam st swtpm slock swaylock swayidle sbcl
     thonny thunderbird
     unzip
     vim
@@ -165,11 +166,23 @@
     yt-dlp
   ];
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal
+    ];
+    configPackages = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal
+    ];
+  };
+
 services = {
    blueman.enable = true;
     xserver = {
       enable = true;
       windowManager.exwm.enable = true;
+      windowManager.stumpwm.enable = true;
       displayManager.gdm.enable = true;
       xkb = {
         variant = "";
@@ -184,7 +197,7 @@ services = {
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs;
+      package = pkgs.emacs-gtk;
     };
     syncthing = {
       enable = false;

@@ -14,9 +14,9 @@
   gtk = {
     enable = true;
     font = {
-      name = "OpenDyslexicAlt Nerd Font";
-      size = 10;
-      package = pkgs.nerdfonts;
+      name = "Hack";
+      size = 12;
+      package = pkgs.hack-font;
     };
     theme = {
       name = "${config.colorScheme.slug}";

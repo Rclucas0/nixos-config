@@ -7,7 +7,7 @@ in {
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
-    font.name = "JetBrainsMono Nerd Font";
+    font.name = "hack Font";
     font.size = 16;
     settings = {
       scrollback_lines = 2000;

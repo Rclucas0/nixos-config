@@ -8,7 +8,7 @@
   - [[#imports][Imports]]
   - [[#bootloader][Bootloader]]
   - [[#networking][Networking]]
-  - [[#systemd][Systemd]]
+  - [[#polkit][Polkit]]
   - [[#datetime--location][Date/Time & Location]]
   - [[#optimization--garbage-collection][Optimization & garbage collection]]
   - [[#enable-sound-with-pipewire][Enable Sound with Pipewire]]
@@ -17,6 +17,7 @@
   - [[#bluetooth--start-on-boot][Bluetooth & Start on Boot]]
   - [[#ssh][SSH]]
   - [[#system-packages][System Packages]]
+  - [[#xdg-portal][XDG Portal]]
   - [[#services][Services]]
 - [[#laptopnix][Laptop.nix]]
   - [[#imports-1][Imports]]
@@ -55,7 +56,7 @@
   };
 #+end_src
 
-** Systemd
+** Polkit
 
 #+begin_src nix
   systemd = {
@@ -222,19 +223,35 @@
     ispell
     kitty
     lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance libtool
+    lispPackages.quicklisp
     mpv
     newsboat neofetch neovim neovide nitrogen
     obs-studio OVMF
     pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
-    sxhkd slock steam st swtpm slock
+    sxhkd slock steam st swtpm slock swaylock swayidle sbcl
     thonny thunderbird
     unzip
     vim
     xfce.thunar xorg.xmodmap xss-lock
     yt-dlp
   ];
+#+end_src
+
+** XDG Portal
+
+#+begin_src nix
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal
+    ];
+    configPackages = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal
+    ];
+  };
 #+end_src
 
 ** Services
@@ -245,6 +262,7 @@ services = {
     xserver = {
       enable = true;
       windowManager.exwm.enable = true;
+      windowManager.stumpwm.enable = true;
       displayManager.gdm.enable = true;
       xkb = {
         variant = "";
@@ -259,7 +277,7 @@ services = {
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs;
+      package = pkgs.emacs-gtk;
     };
     syncthing = {
       enable = false;

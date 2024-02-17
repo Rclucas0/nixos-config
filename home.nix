@@ -12,6 +12,7 @@
     ./user/kitty.nix
     ./user/rofi.nix
     ./user/gtk-gt.nix
+    ./user/hyprland.nix
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];
@@ -21,6 +22,10 @@
   home.file.".config/sxhkd/sxhkdrc".source = ./user/sxhkdrc;
   home.file.".config/doom/" = {
     source = ./user/doom;
+    recursive = true;
+  };
+  home.file.".config/stumpwm/" = {
+    source = ./user/wm/stumpwm;
     recursive = true;
   };
 
