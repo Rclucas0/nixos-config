@@ -33,7 +33,7 @@ in with lib; {
       input {
         kb_layout = us
 	kb_options = grp:alt_shift_toggle
-        kb_options=caps:super
+        kb_options=caps:ctrl_modifier
         follow_mouse = 1
         touchpad {
           natural_scroll = false
@@ -93,7 +93,7 @@ in with lib; {
         }
       }
 
-      exec-once = /nix/store/$(ls -la /nix/store | grep polkit-gnome-agent | grep '^d' | awk '{print $9}')/libexec/polkit-gnome-authentication-agent-1 &
+      exec-once = $POLKIT_BIN
       exec-once = dbus-update-activation-environment --systemd --all
       exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = swww init
@@ -117,7 +117,7 @@ in with lib; {
       bind = ${modifier}SHIFT,S,exec,swaync-client -rs
       bind = ${modifier},W,exec,brave
       bind = ${modifier},E,exec,emacsclient -c -a 'emacs'
-      bind = ${modifier},D,exec,discord
+      bind = ${modifier},D,exec,rofi -show drun
       bind = ${modifier},O,exec,obs
       bind = ${modifier},G,exec,gimp
       bind = ${modifier},T,exec,thunar

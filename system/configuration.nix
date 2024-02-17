@@ -111,6 +111,10 @@
   # but we can remove the "@your-machine" part
   ];
 
+  environment.variables = {
+    POLKIT_BIN = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   virtualisation.libvirtd.enable = true;
@@ -158,7 +162,7 @@
     pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
-    sxhkd slock steam st swtpm slock swaylock swayidle sbcl
+    sxhkd slock steam st swtpm slock swaylock swayidle swaynotificationcenter sbcl
     thonny thunderbird
     unzip
     vim
@@ -197,7 +201,7 @@ services = {
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs-gtk;
+      package = pkgs.emacs;
     };
     syncthing = {
       enable = false;
