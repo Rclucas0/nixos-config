@@ -162,7 +162,7 @@
     pavucontrol picom prismlauncher polkit_gnome python3
     qemu_full
     rofi ripgrep
-    sxhkd slock steam st swtpm slock swaylock swayidle swaynotificationcenter sbcl
+    sxhkd slock steam st swtpm slock swaylock swayidle swaynotificationcenter sbcl swww
     thonny thunderbird
     unzip
     vim
@@ -214,4 +214,9 @@ services = {
       };
     };
 };
+security.pam.services.swaylock = {
+    text = ''
+      auth include login
+    '';
+  };
 }

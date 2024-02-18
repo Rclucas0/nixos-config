@@ -13,6 +13,9 @@
     ./user/rofi.nix
     ./user/gtk-gt.nix
     ./user/hyprland.nix
+    ./user/waybar.nix
+    ./user/swaylock.nix
+    ./user/swaync.nix
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];

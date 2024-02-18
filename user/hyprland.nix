@@ -13,12 +13,28 @@ in with lib; {
     ];
     extraConfig = let
       modifier = "SUPER";
+      modifier2 = "ALT";
     in concatStrings [ ''
-      monitor=,preferred,auto,1
+      monitor=DP-1, 1920x1080, 0x0, 1
+      monitor=DP-3, 1920x1080@240, 1920x0, 1
 
       windowrule = float, ^(steam)$
       windowrule = size 1080 900, ^(steam)$
       windowrule = center, ^(steam)$
+      windowrule = workspace 7, ^(steam)$
+
+      windowrule = opacity 0.85 0.85, ^(Emacs)$
+      windowrule = workspace 2, ^(Emacs)$
+
+      windowrule = workspace 1, ^(brave-browser)$
+
+      windowrule = opacity 0.85 0.85, ^(discord)$
+      windowrule = workspace 3, ^(discord)$
+
+      windowrule = workspace special, ^(kitty)$
+      windowrule = float, ^(kitty)$
+      windowrule = size 1000 700, ^(kitty)$
+      windowrule = center, ^(kitty)$
 
       general {
         gaps_in = 6
@@ -97,6 +113,7 @@ in with lib; {
       exec-once = dbus-update-activation-environment --systemd --all
       exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = swww init
+      exec = swww img ~/Pictures/Wallpapers/0240.jpg
       exec-once = waybar
       exec-once = swaync
       exec-once = wallsetter
@@ -111,20 +128,22 @@ in with lib; {
         new_is_master = true
       }
 
+      bind = ${modifier2},S,exec,steam
       bind = ${modifier},Return,exec,kitty
-      bind = ${modifier}SHIFT,Return,exec,rofi-launcher
-      bind = ${modifier}SHIFT,W,exec,web-search
-      bind = ${modifier}SHIFT,S,exec,swaync-client -rs
       bind = ${modifier},W,exec,brave
+      bind = ${modifier},D,exec,discord
       bind = ${modifier},E,exec,emacsclient -c -a 'emacs'
-      bind = ${modifier},D,exec,rofi -show drun
       bind = ${modifier},O,exec,obs
       bind = ${modifier},G,exec,gimp
       bind = ${modifier},T,exec,thunar
       bind = ${modifier},Q,killactive,
       bind = ${modifier},P,pseudo,
-      bind = ${modifier}SHIFT,I,togglesplit,
       bind = ${modifier},F,fullscreen,
+      bind = ${modifier}SHIFT,W,exec,web-search
+      bind = ${modifier}SHIFT,Return,exec,rofi-launcher
+      bind = ${modifier}SHIFT,S,exec,swaync-client -rs
+      bind = ${modifier}SHIFT,I,togglesplit,
+      bind = ${modifier}SHIFT,D,exec,rofi -show drun
       bind = ${modifier}SHIFT,F,togglefloating,
       bind = ${modifier}SHIFT,C,exit,
       bind = ${modifier}SHIFT,left,movewindow,l
@@ -153,6 +172,8 @@ in with lib; {
       bind = ${modifier},8,workspace,8
       bind = ${modifier},9,workspace,9
       bind = ${modifier},0,workspace,10
+      bind = ${modifier},S,togglespecialworkspace,
+      bind = ${modifier}SHIFT,S,movetoworkspace,special
       bind = ${modifier}SHIFT,1,movetoworkspace,1
       bind = ${modifier}SHIFT,2,movetoworkspace,2
       bind = ${modifier}SHIFT,3,movetoworkspace,3
