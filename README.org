@@ -67,6 +67,10 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, ... }:
   let
@@ -93,7 +97,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
           inherit system; inherit inputs;
           inherit username; inherit hostname;
           inherit gitUsername; inherit gitEmail;
-          inherit flakeDir;
+          inherit flakeDir; inherit theme;
         };
 	    modules = [ ./system/configuration.nix
           home-manager.nixosModules.home-manager {
@@ -136,6 +140,7 @@ From [[https://zero-to-nix.com/concepts/flakes][Zero to Nix]]
     ./user/waybar.nix
     ./user/swaylock.nix
     ./user/swaync.nix
+#    inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];
@@ -452,15 +457,20 @@ in with lib; {
       windowrule = float, ^(steam)$
       windowrule = size 1080 900, ^(steam)$
       windowrule = center, ^(steam)$
+      windowrule = opacity 0.85 0.85, ^(steam)$
       windowrule = workspace 7, ^(steam)$
+      windowrule = monitor DP-3, ^(steam)$
 
       windowrule = opacity 0.85 0.85, ^(Emacs)$
       windowrule = workspace 2, ^(Emacs)$
 
       windowrule = workspace 1, ^(brave-browser)$
 
+      windowrule = opacity 0.85 0.85, ^(Rofi)$
+
       windowrule = opacity 0.85 0.85, ^(discord)$
       windowrule = workspace 3, ^(discord)$
+      windowrule = monitor DP-1, ^(discord)$
 
       windowrule = workspace special, ^(kitty)$
       windowrule = float, ^(kitty)$
@@ -603,8 +613,8 @@ in with lib; {
       bind = ${modifier},8,workspace,8
       bind = ${modifier},9,workspace,9
       bind = ${modifier},0,workspace,10
-      bind = ${modifier},S,togglespecialworkspace,
-      bind = ${modifier}SHIFT,S,movetoworkspace,special
+      bind = ${modifier},SPACE,togglespecialworkspace,
+      bind = ${modifier}SHIFT,SPACE,movetoworkspace,special
       bind = ${modifier}SHIFT,1,movetoworkspace,1
       bind = ${modifier}SHIFT,2,movetoworkspace,2
       bind = ${modifier}SHIFT,3,movetoworkspace,3

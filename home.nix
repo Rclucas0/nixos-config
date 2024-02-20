@@ -16,6 +16,7 @@
     ./user/waybar.nix
     ./user/swaylock.nix
     ./user/swaync.nix
+#    inputs.nixvim.homeManagerModules.nixvim
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
   ];

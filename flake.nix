@@ -11,6 +11,10 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, ... }:
   let
@@ -37,7 +41,7 @@
           inherit system; inherit inputs;
           inherit username; inherit hostname;
           inherit gitUsername; inherit gitEmail;
-          inherit flakeDir;
+          inherit flakeDir; inherit theme;
         };
 	    modules = [ ./system/configuration.nix
           home-manager.nixosModules.home-manager {

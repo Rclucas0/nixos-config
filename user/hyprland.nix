@@ -21,15 +21,20 @@ in with lib; {
       windowrule = float, ^(steam)$
       windowrule = size 1080 900, ^(steam)$
       windowrule = center, ^(steam)$
+      windowrule = opacity 0.85 0.85, ^(steam)$
       windowrule = workspace 7, ^(steam)$
+      windowrule = monitor DP-3, ^(steam)$
 
       windowrule = opacity 0.85 0.85, ^(Emacs)$
       windowrule = workspace 2, ^(Emacs)$
 
       windowrule = workspace 1, ^(brave-browser)$
 
+      windowrule = opacity 0.85 0.85, ^(Rofi)$
+
       windowrule = opacity 0.85 0.85, ^(discord)$
       windowrule = workspace 3, ^(discord)$
+      windowrule = monitor DP-1, ^(discord)$
 
       windowrule = workspace special, ^(kitty)$
       windowrule = float, ^(kitty)$
@@ -172,8 +177,8 @@ in with lib; {
       bind = ${modifier},8,workspace,8
       bind = ${modifier},9,workspace,9
       bind = ${modifier},0,workspace,10
-      bind = ${modifier},S,togglespecialworkspace,
-      bind = ${modifier}SHIFT,S,movetoworkspace,special
+      bind = ${modifier},SPACE,togglespecialworkspace,
+      bind = ${modifier}SHIFT,SPACE,movetoworkspace,special
       bind = ${modifier}SHIFT,1,movetoworkspace,1
       bind = ${modifier}SHIFT,2,movetoworkspace,2
       bind = ${modifier}SHIFT,3,movetoworkspace,3

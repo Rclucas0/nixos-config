@@ -1,9 +1,14 @@
 { config, pkgs, inputs, ... }:
-{
+let
+  inherit (import ../options.nix);
+in {
   imports =
     [
+      inputs.nixvim.nixosModules.nixvim
       ../hardware.nix
-     ../user/wm/dwm.nix
+      ../user/wm/dwm.nix
+      ./sddm.nix
+      #./neovim.nix
     ];
   system.stateVersion = "23.11";
 
@@ -157,15 +162,16 @@
     lolcat libsForQt5.kdenlive libsForQt5.qt5ct lsd lxappearance libtool
     lispPackages.quicklisp
     mpv
-    newsboat neofetch neovim neovide nitrogen
+    neovim
+    newsboat neofetch neovide nitrogen
     obs-studio OVMF
-    pavucontrol picom prismlauncher polkit_gnome python3
+    pavucontrol picom prismlauncher polkit_gnome
     qemu_full
     rofi ripgrep
     sxhkd slock steam st swtpm slock swaylock swayidle swaynotificationcenter sbcl swww
     thonny thunderbird
     unzip
-    vim
+   # vim
     xfce.thunar xorg.xmodmap xss-lock
     yt-dlp
   ];
@@ -185,9 +191,7 @@ services = {
    blueman.enable = true;
     xserver = {
       enable = true;
-      windowManager.exwm.enable = true;
-      windowManager.stumpwm.enable = true;
-      displayManager.gdm.enable = true;
+#      displayManager.gdm.enable = true;
       xkb = {
         variant = "";
         layout = "us";
